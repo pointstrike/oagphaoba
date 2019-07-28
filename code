@@ -1,0 +1,33 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+ 
+image = cv2.imread("images/fuji.jpg", cv2.IMREAD_GRAYSCALE)
+
+ 
+fimage = np.fft.fft2(image)
+
+
+fimg =  np.fft.fftshift(fimage)
+
+mag = 20*np.log(np.abs(fimg))
+plt.subplot(121)
+plt.imshow(image,cmap = 'gray')
+plt.subplot(122)
+plt.imshow(mag,cmap = 'gray')
+plt.show()
+
+fimage = np.fft.fft2(image)
+print (fimage)
+print (fimage.shape)
+ 
+ifimage = np.fft.ifft2(fimage)
+# Extract real part
+ifimage = ifimage.real
+# Convert to 255 tones for gray scale
+ifimage = np.uint8(ifimage)
+ 
+cv2.imshow("fft and ifft",ifimage)
+cv2.waitKey(0)
+cv2.destroyAllWindows() 
